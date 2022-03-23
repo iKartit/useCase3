@@ -5,8 +5,8 @@
       "default": true
     }
   ],
-  "name": "Use Case 3",
+  "name": "Booking-System",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "54.0"
+  "sourceApiVersion": "52.0"
 }
