@@ -1,7 +1,9 @@
 public with sharing class CaseTriggerHandler extends TriggerHandler{
-    private List<Account> oldAccountList, newAccountList;
-    private Map<Id, Account> oldAccountMap, newAccountMap;
-  
+    private List<Case> newCaseList;
+    private List<Case> oldCaseList;
+    private Map<Id, Case> newCaseMap;
+    private Map<Id, Case> oldCaseMap;
+
     public CaseTriggerHandler() {
         oldCaseList = (List<Case>) Trigger.old;
         newCaseList = (List<Case>) Trigger.new;
@@ -9,18 +11,13 @@ public with sharing class CaseTriggerHandler extends TriggerHandler{
         newCaseMap = (Map<Id, Case>) Trigger.newMap;
     }
   
-    protected override void beforeInsert() {
-        //AccountTriggerHelper.doSomeBusinessRequirement(newAccountList);
+    public override void beforeInsert() {
+        CaseTriggerHelper.validateCasesAttendees(newCaseList);
     }
-
-    protected override void afterUpdate() {
-        //AccountTriggerHelper.updateRelatedContacts(newAccountMap);
+    public override void beforeUpdate() {
+        CaseTriggerHelper.validateRequestToExternalSystem(newCaseList);
     }
-
-    //To bypass
-    // protected override void afterUpdate() {
-    //     TriggerHandler.bypass('ContactTriggerHandler');
-    //     AccountTriggerHelper.updateRelatedContacts(newAccountMap);
-    //     TriggerHandler.clearBypass('ContactTriggerHandler');
-    // }
+    public override void afterUpdate() {
+        CaseTriggerHelper.validateRequestToExternalSystem(newCaseList);
+    }
 }
